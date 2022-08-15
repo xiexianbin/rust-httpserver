@@ -1,15 +1,15 @@
 use std::fs;
-use std::net::TcpListener;
-use std::net::TcpStream;
 use std::io::Read;
 use std::io::Write;
+use std::net::TcpListener;
+use std::net::TcpStream;
 // use std::thread;
 
 use rust_httpserver::ThreadPool;
 
 fn handle_connection(mut stream: TcpStream) {
-    let mut buf:[u8; 512] = [0; 512];
-    stream.read(&mut buf).unwrap();
+    let mut buf: [u8; 512] = [0; 512];
+    _ = stream.read(&mut buf).unwrap();
     println!("  => Request:\r\n{}", String::from_utf8_lossy(&buf[..]));
 
     // http protocal, ref
@@ -23,10 +23,13 @@ fn handle_connection(mut stream: TcpStream) {
         ("HTTP/1.1 404 NOT FOUND", "./static/404.html")
     };
     let content: String = fs::read_to_string(filename).unwrap();
-    let response: String = format!("{}\r\n{}\r\n\r\n{}", resp_code, response_content_type, content);
+    let response: String = format!(
+        "{}\r\n{}\r\n\r\n{}",
+        resp_code, response_content_type, content
+    );
     println!("  => Response:\r\n{}", response);
 
-    stream.write(response.as_bytes()).unwrap();
+    _ = stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
 }
 

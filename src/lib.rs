@@ -1,6 +1,6 @@
-use std::sync::Arc;
 use std::sync::mpsc;
 use std::sync::mpsc::Receiver;
+use std::sync::Arc;
 use std::sync::Mutex;
 use std::thread;
 
@@ -41,7 +41,10 @@ impl Worker {
                 }
             }
         });
-        Worker { id: id, thread: Some(thread) }
+        Worker {
+            id,
+            thread: Some(thread),
+        }
     }
 }
 
@@ -58,16 +61,16 @@ pub struct ThreadPool {
 
 impl ThreadPool {
     /// Create a new ThreadPool
-    /// 
+    ///
     /// The size is the number of threads in the pool
-    /// 
+    ///
     /// # Panics
-    /// 
+    ///
     /// The `new` function will panic if the size less than zero.
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
         let (sender, receiver) = mpsc::channel();
-        let receiver:Arc<Mutex<Receiver<Message>>> = Arc::new(Mutex::new(receiver));
+        let receiver: Arc<Mutex<Receiver<Message>>> = Arc::new(Mutex::new(receiver));
         let mut workers = Vec::with_capacity(size);
         for i in 0..size {
             // create thread and store them in threads vector
