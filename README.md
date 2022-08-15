@@ -19,3 +19,9 @@ curl -Lfs -o main https://github.com/xiexianbin/rust-httpserver/releases/latest/
 chmod +x rust-httpserver
 ./rust-httpserver
 ```
+
+or
+
+```shell
+cargo install rust-httpserver
+```
