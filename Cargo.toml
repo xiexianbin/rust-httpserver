@@ -2,7 +2,7 @@
 name = "rust-httpserver"
 version = "0.1.0"
 edition = "2021"
-description = "rust project demo/template with github actions."
+description = "rust http sample server."
 license = "Apache-2.0"
 author = ["xiexianbin"]
 
